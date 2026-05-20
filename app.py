@@ -143,7 +143,7 @@ async def lifespan(app: FastAPI):
     # Start the periodic cleanup background task
     cleanup_task = asyncio.create_task(_periodic_cleanup())
     logger.info(
-        "Media Downloader ready — max %d concurrent downloads, "
+        "Insta Media Downloader ready — max %d concurrent downloads, "
         "rate limit %d req/%ds per IP",
         MAX_CONCURRENT_DOWNLOADS, RATE_LIMIT_REQUESTS, RATE_LIMIT_WINDOW,
     )
@@ -156,7 +156,7 @@ async def lifespan(app: FastAPI):
         pass
 
 # ── FastAPI app ───────────────────────────────────────────────────────────────
-app = FastAPI(title="Media Downloader API", lifespan=lifespan)
+app = FastAPI(title="Insta Media Downloader API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -277,8 +277,9 @@ def _sync_fetch_info(url: str) -> dict:
     Blocking: fetch video metadata without downloading.
     Always call via asyncio.to_thread() — never directly from async code.
     """
-    if "youtube.com" in url.lower() or "youtu.be" in url.lower():
-        raise ValueError("YouTube downloads are not supported.")
+    url_lower = url.lower()
+    if not ("instagram.com" in url_lower or "instagr.am" in url_lower):
+        raise ValueError("Only Instagram URLs (instagram.com or instagr.am) are supported.")
 
     # Info-only fetch — use lightweight opts (no format/merge keys)
     with yt_dlp.YoutubeDL(_build_info_opts(url)) as ydl:
@@ -350,8 +351,9 @@ def _sync_download(url: str, task_id: str) -> None:
     Blocking: download media to TEMP_DIR using the given task_id as prefix.
     Always call via asyncio.to_thread() — never directly from async code.
     """
-    if "youtube.com" in url.lower() or "youtu.be" in url.lower():
-        raise ValueError("YouTube downloads are not supported.")
+    url_lower = url.lower()
+    if not ("instagram.com" in url_lower or "instagr.am" in url_lower):
+        raise ValueError("Only Instagram URLs (instagram.com or instagr.am) are supported.")
 
     try:
         opts = _build_ydl_opts(url)

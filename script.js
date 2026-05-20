@@ -85,6 +85,13 @@ dlBtn.addEventListener('click', async () => {
     showErr('Only http:// and https:// links are supported.');
     return;
   }
+
+  // Restrict domain to Instagram
+  const host = parsed.hostname.toLowerCase();
+  if (!host.endsWith('instagram.com') && !host.endsWith('instagr.am') && host !== 'instagram.com' && host !== 'instagr.am') {
+    showErr('Only Instagram URLs (instagram.com or instagr.am) are supported.');
+    return;
+  }
   
   clearErr();
   dlBtn.classList.add('loading');
