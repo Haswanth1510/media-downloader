@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://media-downloader-n3de.onrender.com/sitemap.xml
+Sitemap: https://media-downloader-6ct3.onrender.com/sitemap.xml
