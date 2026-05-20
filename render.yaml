@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: insta-media-downloader
+    name: media-downloader
     env: docker
     plan: free
     repo: https://github.com/Haswanth1510/media-downloader

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://insta-media-downloader.onrender.com/sitemap.xml
+Sitemap: https://media-downloader-n3de.onrender.com/sitemap.xml
