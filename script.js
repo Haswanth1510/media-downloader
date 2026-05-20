@@ -88,7 +88,8 @@ dlBtn.addEventListener('click', async () => {
 
   // Restrict domain to Instagram
   const host = parsed.hostname.toLowerCase();
-  if (!host.endsWith('instagram.com') && !host.endsWith('instagr.am') && host !== 'instagram.com' && host !== 'instagr.am') {
+  const isInstagram = host === 'instagram.com' || host.endsWith('.instagram.com') || host === 'instagr.am' || host.endsWith('.instagr.am');
+  if (!isInstagram) {
     showErr('Only Instagram URLs (instagram.com or instagr.am) are supported.');
     return;
   }

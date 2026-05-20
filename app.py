@@ -277,8 +277,14 @@ def _sync_fetch_info(url: str) -> dict:
     Blocking: fetch video metadata without downloading.
     Always call via asyncio.to_thread() — never directly from async code.
     """
-    url_lower = url.lower()
-    if not ("instagram.com" in url_lower or "instagr.am" in url_lower):
+    from urllib.parse import urlparse
+    try:
+        parsed = urlparse(url)
+        host = (parsed.hostname or "").lower()
+        is_instagram = host == "instagram.com" or host.endswith(".instagram.com") or host == "instagr.am" or host.endswith(".instagr.am")
+        if not is_instagram:
+            raise ValueError()
+    except Exception:
         raise ValueError("Only Instagram URLs (instagram.com or instagr.am) are supported.")
 
     # Info-only fetch — use lightweight opts (no format/merge keys)
@@ -351,8 +357,14 @@ def _sync_download(url: str, task_id: str) -> None:
     Blocking: download media to TEMP_DIR using the given task_id as prefix.
     Always call via asyncio.to_thread() — never directly from async code.
     """
-    url_lower = url.lower()
-    if not ("instagram.com" in url_lower or "instagr.am" in url_lower):
+    from urllib.parse import urlparse
+    try:
+        parsed = urlparse(url)
+        host = (parsed.hostname or "").lower()
+        is_instagram = host == "instagram.com" or host.endswith(".instagram.com") or host == "instagr.am" or host.endswith(".instagr.am")
+        if not is_instagram:
+            raise ValueError()
+    except Exception:
         raise ValueError("Only Instagram URLs (instagram.com or instagr.am) are supported.")
 
     try:
